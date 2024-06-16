@@ -12,10 +12,13 @@ import Login from "./components/registration/Login";
 import Signup from "./components/registration/Signup";
 import UserDasebord from "./components/page/user/UserDasebord";
 import AdminDasebord from "./components/page/admin/AdminDasebord";
+import AddProductPage from "./components/page/admin/AddProductPage";
+import UpdateProductPage from "./components/page/admin/UpdateProductPage";
+import MyState from "./contaxt/MyState";
 
 function App() {
   return (
-    <div>
+    <MyState>
       <Router>
         <ScrollTop />
         <Routes>
@@ -29,9 +32,11 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/user-dasebord" element={<UserDasebord />} />
           <Route path="/admin-dasebord" element={<AdminDasebord />} />
+          <Route path="/addproduct" element={<AddProductPage />} />
+          <Route path="/updateproduct" element={<UpdateProductPage />} />
         </Routes>
       </Router>
-    </div>
+    </MyState>
   );
 }
 

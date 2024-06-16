@@ -1,5 +1,6 @@
 import { Button } from "flowbite-react";
-import { CarrotIcon, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function ProductDitelse() {
   return (
@@ -49,7 +50,7 @@ function ProductDitelse() {
               >
                 {"sitanager"}
               </td>
-              <td className="text-green-300 h-12 px-6 font-bold transition duration-300 stroke-slate-500   border-yellow-200 first:border-l-0 text-md border-l border-t first-letter:uppercase cursor-pointer">
+              <td className="text-green-500 h-12 px-6 font-bold transition duration-300 stroke-slate-500   border-yellow-200 first:border-l-0 text-md border-l border-t first-letter:uppercase cursor-pointer">
                 Edit
               </td>
               <td className="text-red-500 h-12 px-6 font-bold transition duration-300 stroke-slate-500   border-yellow-200 first:border-l-0 text-md border-l border-t first-letter:uppercase cursor-pointer">
@@ -60,11 +61,12 @@ function ProductDitelse() {
         </table>
       </div>
       <div className="flex  items-center justify-center">
-        <Button className=" bg-green-200 text-black  ">
-          <ShoppingBag className="w-10" />
-
-          <p className="text-xl ">Add Product</p>
-        </Button>
+        <Link to={`/addproduct`}>
+          <Button className=" bg-green-200 text-black  ">
+            <ShoppingBag className="w-10" />
+            <p className="text-xl ">Add Product</p>
+          </Button>
+        </Link>
       </div>
     </div>
   );
