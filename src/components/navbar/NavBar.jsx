@@ -1,8 +1,15 @@
-import { Button, Navbar, NavbarLink } from "flowbite-react";
+import { Button, Navbar } from "flowbite-react";
 import SerachBar from "../serachBar/SerachBar";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import img from "./Aadit .jpg";
 export function NavBar() {
+  const user = JSON.parse(localStorage.getItem("users"));
+  console.log(user);
+  // const nevigate = useNavigate();
+  // function logout() {
+  //   localStorage.removeItem("users");
+  //   nevigate("/login");
+  // }
   return (
     <Navbar className="bg-yellow-400" fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -10,10 +17,11 @@ export function NavBar() {
           E-Shope Now
         </span>
       </Navbar.Brand>
-      <div className="flex md:order-2">
+      <div className="flex md:order-1">
         {/* <SerachBar>Get started</SerachBar> */}
         <Navbar.Toggle />
       </div>
+
       <Navbar.Collapse>
         <Navbar.Link className="text-lg" href="#" active>
           Home
@@ -27,16 +35,41 @@ export function NavBar() {
         <Navbar.Link className="text-lg" href="#">
           Pricing
         </Navbar.Link>
-        <Navbar.Link>
-          <Link className="text-lg" to={`/user-dasebord`}>
-            Kamal
-          </Link>
-        </Navbar.Link>
-        <Navbar.Link>
-          <Link className="text-lg" to={`/admin-dasebord`}>
-            Admin
-          </Link>
-        </Navbar.Link>
+        {user?.role === "user" ? (
+          <Navbar.Link>
+            <Link className="text-lg flex gap-3 it" to={`/user-dashboard`}>
+              <img className="h-9 rounded-md" src={img} alt="" />
+
+              {user?.name}
+            </Link>
+          </Navbar.Link>
+        ) : (
+          ""
+        )}
+        {user?.role === "admin" ? (
+          <Navbar.Link>
+            <Link className="text-lg" to={`/admin-dashboard`}>
+              {user?.name}
+            </Link>
+          </Navbar.Link>
+        ) : (
+          ""
+        )}
+
+        {!user ? (
+          <Navbar.Link>
+            <Link className="text-lg" to={`/Signup`}>
+              SignUp
+            </Link>
+          </Navbar.Link>
+        ) : null}
+        {!user ? (
+          <Navbar.Link>
+            <Link className="text-lg" to={`/Login`}>
+              Login{" "}
+            </Link>
+          </Navbar.Link>
+        ) : null}
         <Navbar.Link className="text-lg" href="#">
           Contact
         </Navbar.Link>

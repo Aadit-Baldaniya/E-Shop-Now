@@ -1,27 +1,39 @@
-import { Card } from "flowbite-react";
+import { Card, Spinner } from "flowbite-react";
 import { products } from "../data/data";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import Mycontaxt from "../../contaxt/Mycontaxt";
 
 function HomePageProductCard() {
   const naviget = useNavigate();
-
+  const context = useContext(Mycontaxt);
+  const { getAllProduct, loading } = context;
   return (
     <div>
       <div className="text-center text-2xl font-semibold p-7">
         <h2>BestSelling Products</h2>
       </div>
+      <div className="flex justify-center">
+        {loading && <Spinner className="w-40" />}
+      </div>
       <div className="grid grid-rows-10 lg:grid-rows-3 grid-flow-col gap-2  ">
-        {products.map((value, index) => {
+        {getAllProduct.slice(0, 8).map((value, index) => {
+          const { id, title, price, productImageUrl } = value;
           return (
             <Card
-              onClick={() => naviget("/ProductInfo")}
+              onClick={() => naviget(`/ProductInfo/${id}`)}
               key={index}
               className="max-w-2xl lg:max-w-sm"
-              imgSrc={value.image}
             >
+              <img
+                className="w-52 justify-center flex items-center"
+                src={productImageUrl}
+                alt=""
+                onClick={() => naviget("/ProductInfo")}
+              />
               <a href="#">
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {value.description}
+                  {title}
                 </h5>
               </a>
               <div className="mb-5 mt-2.5 flex items-center">
@@ -71,7 +83,7 @@ function HomePageProductCard() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  ${value.price}
+                  ${price}
                 </span>
                 <a
                   href="#"

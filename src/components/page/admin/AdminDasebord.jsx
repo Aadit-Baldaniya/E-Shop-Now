@@ -1,11 +1,17 @@
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ProductDitelse from "../../admin/ProductDitelse";
-import { Home } from "lucide-react";
 import OrderDetailse from "../../admin/OrderDetailse";
-import AllProduct from "../allProduct/AllProduct";
 import UserDetailse from "../../admin/UserDetailse";
+import { Link } from "react-router-dom";
+import { Button } from "flowbite-react";
+import { ShoppingBag } from "lucide-react";
+import Mycontaxt from "../../../contaxt/Mycontaxt";
+import { useContext } from "react";
 
 function AdminDasebord() {
+  const user = JSON.parse(localStorage.getItem("users"));
+  const context = useContext(Mycontaxt);
+  const { getAllProduct } = context;
   return (
     <div>
       <div className="flex justify-center items-center w-full max-w-auto py-6 ">
@@ -26,12 +32,20 @@ function AdminDasebord() {
               />
             </div>
             <div className="justify-center items-center p-4 ">
-              <p className="flex text-center gap-2 text-lg font-semibold">
-                Name:<span>Baldaniya Aadit Jagdishbhai</span>
-              </p>
               <p className="flex justify-center text-center gap-2 text-lg font-semibold">
+                Name:<span>{user?.name}</span>
+              </p>
+              <p className="flex justify-center  gap-2 text-lg font-semibold">
                 E-mail:
-                <span>aadit1818@gmail.com </span>
+                <span>{user?.email} </span>
+              </p>{" "}
+              <p className="flex justify-center  gap-2 text-lg font-semibold">
+                Date:
+                <span>{user?.date} </span>
+              </p>{" "}
+              <p className="flex justify-center  gap-2 text-lg font-semibold">
+                Role:
+                <span>{user?.role} </span>
               </p>
             </div>
           </div>
@@ -66,7 +80,7 @@ function AdminDasebord() {
                   </svg>
                 </div>
                 <h2 className="title-font font-medium text-3xl text-yellow-400 fonts1">
-                  10
+                  {getAllProduct.length}
                 </h2>
                 <p className=" text-yellow-500  font-bold">Total Products</p>
               </div>
@@ -130,8 +144,9 @@ function AdminDasebord() {
               </div>
             </Tab>
           </TabList>
-          <div className="p-5">
-            <TabPanel>
+
+          <div className="p-5 ">
+            <TabPanel className="border-yellow-50">
               <ProductDitelse />
             </TabPanel>
             <TabPanel>
@@ -142,6 +157,16 @@ function AdminDasebord() {
             </TabPanel>
           </div>
         </Tabs>
+      </div>
+      <div>
+        <div className="flex  items-center justify-center">
+          <Link to={`/addproduct`}>
+            <Button className=" bg-green-200 text-black  ">
+              <ShoppingBag className="w-10" />
+              <p className="text-xl ">Add Product</p>
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

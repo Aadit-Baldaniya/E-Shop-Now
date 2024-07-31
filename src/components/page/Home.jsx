@@ -9,10 +9,10 @@ import Mycontaxt from "../../contaxt/Mycontaxt";
 
 function Home() {
   const value = useContext(Mycontaxt);
-  const name = value;
+  console.log(value);
+
   return (
     <Layout>
-      <h1>{name}</h1>
       <HeroSection />
       <Category />
       <HomePageProductCard />

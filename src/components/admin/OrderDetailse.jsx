@@ -58,11 +58,6 @@ function OrderDetailse() {
           </tbody>
         </table>
       </div>
-      <div className="flex items-center justify-center">
-        <Button className="   bg-green-300 text-black  ">
-          <p className="text-xl">Add Product</p>
-        </Button>
-      </div>
     </div>
   );
 }

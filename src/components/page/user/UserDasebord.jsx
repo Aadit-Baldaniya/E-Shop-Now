@@ -2,6 +2,7 @@ import { product } from "../../data/data";
 import Layout from "../../layout/Layout";
 
 function UserDasebord() {
+  const user = JSON.parse(localStorage.getItem("users"));
   return (
     <Layout>
       <div>
@@ -16,12 +17,23 @@ function UserDasebord() {
                 />
               </div>
               <div className="justify-center items-center p-5 ">
-                <p className="flex text-center gap-2 text-lg font-semibold">
-                  Name:<span>Baldaniya Aadit Jagdishbhai</span>
+                <p className="flex justify-center gap-2 text-lg font-semibold">
+                  Name:<span>{user?.name}</span>
                 </p>
-                <p className="flex text-center gap-2 text-lg font-semibold">
+                <p className="flex justify-center gap-2 text-lg font-semibold">
                   E-mail:
-                  <span>aadit1818@gmail.com </span>
+                  <span>{user?.email}</span>
+                </p>
+                <p
+                  className="flex 
+                justify-center gap-2 text-lg font-semibold"
+                >
+                  Date:
+                  <span>{user?.date}</span>
+                </p>
+                <p className="flex justify-center gap-2 text-lg font-semibold">
+                  Role:
+                  <span>{user?.role}</span>
                 </p>
               </div>
             </div>
@@ -49,7 +61,7 @@ function UserDasebord() {
                         2. Date
                       </div>
                       <div className="text-sm font-medium text-gray-900">
-                        18 July 2006
+                        {user.date}
                       </div>
                     </div>{" "}
                     <div className="mb-4">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 import {
   Card,
@@ -9,17 +9,38 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
+import Mycontaxt from "../../../contaxt/Mycontaxt";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../../FIREBASE/Firebaseconfing";
+import { useParams } from "react-router-dom";
+
 function ProductInfo() {
+  const context = useContext(Mycontaxt);
+  const { loading, setLoading } = context;
+  const [product, setProduct] = useState("");
+  const { id } = useParams();
+  const getProductData = async () => {
+    setLoading(true);
+    try {
+      const productdata = await getDoc(doc(db, "products", id));
+      setProduct(productdata.data());
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getProductData();
+  }, []);
   return (
     <Layout>
       <div className="flex gap-52  px-20 py-20">
+        {loading && <Spinner />}
         <Card className=" w-96  ">
           <CardHeader floated={false} className="h-96">
-            <img
-              src="https://i.pinimg.com/564x/74/43/bd/7443bd82f0654f993f28f4776d34099e.jpg"
-              alt="profile-picture"
-            />
+            <img src={product?.productImageUrl} alt="profile-picture" />
           </CardHeader>
           <CardBody className="text-center ">
             <Typography
