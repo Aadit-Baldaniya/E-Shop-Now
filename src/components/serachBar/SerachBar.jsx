@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { category } from "../data/data";
 import { useNavigate } from "react-router-dom";
+import Mycontaxt from "../../contaxt/Mycontaxt";
 // import React from "react";
 function SerachBar() {
+  const context = useContext(Mycontaxt);
+  const { getAllProduct } = context;
   const [serach, setSearch] = useState("");
   const nevigate = useNavigate();
 
-  const filterSearchData = category
-    .filter((obj) => obj.name.toLowerCase().includes(serach))
+  const filterSearchData = getAllProduct
+    .filter((obj) => obj.title.toLowerCase().includes(serach))
     .slice(0, 8);
 
   return (
@@ -27,11 +30,11 @@ function SerachBar() {
               {filterSearchData.map((value, index) => {
                 return (
                   <div
-                    // onClick={nevigate(`/productinfo/${value.id}`)}
+                    onClick={() => nevigate(`/productinfo/${value.id}`)}
                     className="flex items-center gap-2"
                   >
-                    <img className="w-10" src={value.image} alt="" />
-                    <p>{value.name}</p>
+                    <img className="w-10" src={value.productImageUrl} alt="" />
+                    <p>{value.title}</p>
                   </div>
                 );
               })}

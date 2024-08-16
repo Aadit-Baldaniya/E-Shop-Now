@@ -11,7 +11,7 @@ import { useContext } from "react";
 function AdminDasebord() {
   const user = JSON.parse(localStorage.getItem("users"));
   const context = useContext(Mycontaxt);
-  const { getAllProduct } = context;
+  const { getAllProduct, order, allUser } = context;
   return (
     <div>
       <div className="flex justify-center items-center w-full max-w-auto py-6 ">
@@ -110,7 +110,7 @@ function AdminDasebord() {
                   </svg>
                 </div>
                 <h2 className="title-font font-medium text-3xl text-yellow-400 fonts1">
-                  10
+                  {order.length}
                 </h2>
                 <p className=" text-yellow-500  font-bold">Total Order</p>
               </div>
@@ -138,9 +138,9 @@ function AdminDasebord() {
                   </svg>
                 </div>
                 <h2 className="title-font font-medium text-3xl text-yellow-400 fonts1">
-                  10
+                  {allUser.length}
                 </h2>
-                <p className=" text-yellow-500  font-bold">Total Order</p>
+                <p className=" text-yellow-500  font-bold">Total User</p>
               </div>
             </Tab>
           </TabList>

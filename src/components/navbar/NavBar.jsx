@@ -2,14 +2,17 @@ import { Button, Navbar } from "flowbite-react";
 import SerachBar from "../serachBar/SerachBar";
 import { Link, useNavigate } from "react-router-dom";
 import img from "./Aadit .jpg";
+import { ShoppingBasketIcon } from "lucide-react";
 export function NavBar() {
   const user = JSON.parse(localStorage.getItem("users"));
-  console.log(user);
-  // const nevigate = useNavigate();
-  // function logout() {
-  //   localStorage.removeItem("users");
-  //   nevigate("/login");
-  // }
+  const cartData = JSON.parse(localStorage.getItem("cart"));
+
+  const nevigate = useNavigate();
+
+  function logout() {
+    localStorage.removeItem("users");
+    nevigate("/login");
+  }
   return (
     <Navbar className="bg-yellow-400" fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -23,11 +26,11 @@ export function NavBar() {
       </div>
 
       <Navbar.Collapse>
-        <Navbar.Link className="text-lg" href="#" active>
-          Home
+        <Navbar.Link className="text-lg" href="/#" active>
+          <Link to={"/"}>Home</Link>
         </Navbar.Link>
         <Navbar.Link className="text-lg" href="#">
-          About
+          <Link to={"/Allproduct"}>AllProduct</Link>
         </Navbar.Link>
         <Navbar.Link className="text-lg" href="#">
           Services
@@ -39,7 +42,6 @@ export function NavBar() {
           <Navbar.Link>
             <Link className="text-lg flex gap-3 it" to={`/user-dashboard`}>
               <img className="h-9 rounded-md" src={img} alt="" />
-
               {user?.name}
             </Link>
           </Navbar.Link>
@@ -70,11 +72,24 @@ export function NavBar() {
             </Link>
           </Navbar.Link>
         ) : null}
-        <Navbar.Link className="text-lg" href="#">
-          Contact
-        </Navbar.Link>
+
+        {user ? (
+          <Navbar.Link className="text-lg" href="#">
+            <Link onClick={logout}>Logout</Link>
+          </Navbar.Link>
+        ) : null}
       </Navbar.Collapse>
       <SerachBar />
+      <div>
+        <Link
+          className="flex gap-1 text-xl font-semibold items-center"
+          to={"/CartProduct"}
+        >
+          <ShoppingBasketIcon height={"50px"} />
+
+          {cartData.length}
+        </Link>
+      </div>
     </Navbar>
   );
 }

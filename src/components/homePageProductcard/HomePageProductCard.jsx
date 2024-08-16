@@ -1,13 +1,34 @@
 import { Card, Spinner } from "flowbite-react";
 import { products } from "../data/data";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Mycontaxt from "../../contaxt/Mycontaxt";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { addToCart, DeleteProduct } from "../ReduxTollkit/Slice";
 
 function HomePageProductCard() {
   const naviget = useNavigate();
   const context = useContext(Mycontaxt);
   const { getAllProduct, loading } = context;
+
+  const cartItems = useSelector((store) => store.cart);
+  console.log("cartItems", cartItems);
+
+  const dispatch = useDispatch();
+  function AddToCart(item) {
+    dispatch(addToCart(item));
+    toast.success("Add To Cart");
+  }
+
+  function DeleteToCart(item) {
+    dispatch(DeleteProduct(item));
+    toast.error("Delete To Cart");
+  }
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
   return (
     <div>
       <div className="text-center text-2xl font-semibold p-7">
@@ -16,20 +37,16 @@ function HomePageProductCard() {
       <div className="flex justify-center">
         {loading && <Spinner className="w-40" />}
       </div>
-      <div className="grid grid-rows-10 lg:grid-rows-3 grid-flow-col gap-2  ">
+      <div className="grid grid-rows-2 grid-flow-col gap-4  relative">
         {getAllProduct.slice(0, 8).map((value, index) => {
           const { id, title, price, productImageUrl } = value;
           return (
-            <Card
-              onClick={() => naviget(`/ProductInfo/${id}`)}
-              key={index}
-              className="max-w-2xl lg:max-w-sm"
-            >
+            <Card className="max-w-2xl lg:max-w-72 lg:max-h-92 gap-3">
               <img
-                className="w-52 justify-center flex items-center"
+                className="h-52 w-full relative rounded-full  justify-center  items-center"
                 src={productImageUrl}
                 alt=""
-                onClick={() => naviget("/ProductInfo")}
+                onClick={() => naviget(`/ProductInfo/${id}`)}
               />
               <a href="#">
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
@@ -85,12 +102,23 @@ function HomePageProductCard() {
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">
                   ${price}
                 </span>
-                <a
-                  href="#"
-                  className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                >
-                  Add to cart
-                </a>
+                {cartItems.some((item) => item.id === value.id) ? (
+                  <a
+                    onClick={() => DeleteToCart(value)}
+                    href="#"
+                    className="rounded-lg bg-red-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                  >
+                    Delete to cart
+                  </a>
+                ) : (
+                  <a
+                    onClick={() => AddToCart(value)}
+                    href="#"
+                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                  >
+                    Add to cart
+                  </a>
+                )}
               </div>
             </Card>
           );

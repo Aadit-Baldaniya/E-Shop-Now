@@ -18,57 +18,64 @@ import MyState from "./contaxt/MyState";
 import { Toaster } from "react-hot-toast";
 import ProtectedRouteForUser from "./ProtectedRoute/ProtectedRouteForUser";
 import ProtectedRouteForAdmin from "./ProtectedRoute/ProtectedRouteForAdmin";
+import Catagory from "./components/page/catagory/Catagory";
+import { Provider } from "react-redux";
+import store from "./components/ReduxTollkit/ConStore";
+const data = JSON.parse(localStorage.getItem("users"));
+console.log("data", data);
 
 function App() {
   return (
     <MyState>
-      <Router>
-        <ScrollTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/*" element={<NoPage />} />
-          <Route path="/ProductInfo/:id" element={<ProductInfo />} />
-          <Route path="/CartProduct" element={<CartProduct />} />
-          <Route path="/Allproduct" element={<AllProduct />} />
-          <Route path="/Allproduct" element={<AllProduct />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Login" element={<Login />} />
-          <Route
-            path="/user-dashboard"
-            element={
-              <ProtectedRouteForUser>
-                <UserDasebord />
-              </ProtectedRouteForUser>
-            }
-          />
+      <Provider store={store}>
+        <Router>
+          <ScrollTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/*" element={<NoPage />} />
+            <Route path="/ProductInfo/:id" element={<ProductInfo />} />
+            <Route path="/CartProduct" element={<CartProduct />} />
+            <Route path="/Allproduct" element={<AllProduct />} />
+            <Route path="/catagory/:catagoryname" element={<Catagory />} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/user-dashboard"
+              element={
+                <ProtectedRouteForUser>
+                  <UserDasebord />
+                </ProtectedRouteForUser>
+              }
+            />
 
-          <Route
-            path="/admin-dashboard"
-            element={
-              <ProtectedRouteForAdmin>
-                <AdminDasebord />
-              </ProtectedRouteForAdmin>
-            }
-          />
-          <Route
-            path="/addproduct"
-            element={
-              <ProtectedRouteForAdmin>
-                <AddProductPage />
-              </ProtectedRouteForAdmin>
-            }
-          />
-          <Route
-            path="/updateproduct/:id"
-            element={
-              <ProtectedRouteForAdmin>
-                <UpdateProductPage />
-              </ProtectedRouteForAdmin>
-            }
-          />
-        </Routes>
-        <Toaster />
-      </Router>
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRouteForAdmin>
+                  <AdminDasebord />
+                </ProtectedRouteForAdmin>
+              }
+            />
+            <Route
+              path="/addproduct"
+              element={
+                <ProtectedRouteForAdmin>
+                  <AddProductPage />
+                </ProtectedRouteForAdmin>
+              }
+            />
+            <Route
+              path="/updateproduct/:id"
+              element={
+                <ProtectedRouteForAdmin>
+                  <UpdateProductPage />
+                </ProtectedRouteForAdmin>
+              }
+            />
+          </Routes>
+          <Toaster />
+        </Router>
+      </Provider>
     </MyState>
   );
 }
